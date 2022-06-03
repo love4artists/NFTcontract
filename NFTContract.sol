@@ -29,7 +29,7 @@ contract SimpleNftLowerGas is ERC721, Ownable {
   }
 
   modifier mintCompliance(uint256 _mintAmount) {
-    require(_mintAmount > 0 && _mintAmount <= maxMintAmountPerTx, "Invalid mint amount!");
+    require(_mintAmount > 0 && _mintAmount <= maxMintAmountPerTx, "Mint quantity not valid!");
     require(supply.current() + _mintAmount <= maxSupply, "Max supply exceeded!");
     _;
   }
@@ -52,6 +52,7 @@ contract SimpleNftLowerGas is ERC721, Ownable {
     _mintLoop(_receiver, _mintAmount);
   }
 
+//see NFTs owned specified address
   function walletOfOwner(address _owner)
     public
     view
@@ -77,6 +78,7 @@ contract SimpleNftLowerGas is ERC721, Ownable {
     return ownedTokenIds;
   }
 
+//see Metadata for NFT of interest
   function tokenURI(uint256 _tokenId)
     public
     view
@@ -99,6 +101,7 @@ contract SimpleNftLowerGas is ERC721, Ownable {
         : "";
   }
 
+//reveal collection 
   function setRevealed(bool _state) public onlyOwner {
     revealed = _state;
   }
@@ -134,6 +137,7 @@ contract SimpleNftLowerGas is ERC721, Ownable {
     
   }
 
+//minting loop via ERC721's _safeMint
   function _mintLoop(address _receiver, uint256 _mintAmount) internal {
     for (uint256 i = 0; i < _mintAmount; i++) {
       supply.increment();
